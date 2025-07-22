@@ -12,7 +12,9 @@
       "mcp__browser-tool-mcp__getNetworkLogs",
       "mcp__browser-tool-mcp__getConsoleErrors",
       "mcp__browser-tool-mcp__getNetworkErrors",
-      "mcp__browser-tool-mcp__wipeLogs"
+      "mcp__browser-tool-mcp__wipeLogs",
+      "Bash(osacompile:*)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }
