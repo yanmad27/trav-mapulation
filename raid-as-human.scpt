@@ -22,35 +22,64 @@ property trigger_all_farm_list : "[class~=\"startAllFarmLists\"]"
 
 -- List of selectors with individual wait times {selector, waitTime}
 property selector_list : { ¬
+	{statistics, 5}, ¬
+	{reports, 5}, {mark_all_read, 1}, {confirm_button, 5}, ¬
+	{messages, 5}, ¬
+	{warehouse_link, 5}, ¬
+	{overview_link, 5}, ¬
+	{troops_link, 5}, ¬
+	{hospital_link, 5}, ¬
+	{smithy_link, 5}, ¬
+	{training_link, 5}, ¬
+	{resources_link, 5}, ¬
+	{culture_points_link, 5}, ¬
+	{farm_list, 5}, ¬
+	{trigger_all_farm_list, 15}, ¬
+	{building_view, 220}, ¬ -- END***************************
 	{building_view, 5}, ¬
 	{statistics, 5}, ¬
-	{reports, 5}, {mark_all_read, 1}, {confirm_button, 5}, ¬
 	{messages, 5}, ¬
+	{reports, 5}, {mark_all_read, 1}, {confirm_button, 5}, ¬
 	{overview_link, 5}, ¬
-	{warehouse_link, 5}, ¬
 	{hospital_link, 5}, ¬
-	{troops_link, 5}, ¬
 	{training_link, 5}, ¬
+	{warehouse_link, 5}, ¬
+	{troops_link, 5}, ¬
 	{smithy_link, 5}, ¬
 	{resources_link, 5}, ¬
 	{culture_points_link, 5}, ¬
 	{farm_list, 5}, ¬
 	{trigger_all_farm_list, 15}, ¬
-	{building_view, 250}, ¬
+	{building_view, 220}, ¬ -- END***************************
+	{messages, 5}, ¬
+	{building_view, 5}, ¬
+	{statistics, 5}, ¬
+	{overview_link, 5}, ¬
+	{reports, 5}, {mark_all_read, 1}, {confirm_button, 5}, ¬
+	{hospital_link, 5}, ¬
+	{troops_link, 5}, ¬
+	{smithy_link, 5}, ¬
+	{warehouse_link, 5}, ¬
+	{resources_link, 5}, ¬
+	{culture_points_link, 5}, ¬
+	{training_link, 5}, ¬
+	{farm_list, 5}, ¬
+	{trigger_all_farm_list, 15}, ¬
+	{building_view, 220}, ¬ -- END***************************
 	{statistics, 5}, ¬
 	{reports, 5}, {mark_all_read, 1}, {confirm_button, 5}, ¬
 	{messages, 5}, ¬
-	{overview_link, 5}, ¬
-	{warehouse_link, 5}, ¬
 	{hospital_link, 5}, ¬
-	{troops_link, 5}, ¬
+	{overview_link, 5}, ¬
 	{training_link, 5}, ¬
-	{smithy_link, 5}, ¬
+	{warehouse_link, 5}, ¬
+	{troops_link, 5}, ¬
 	{resources_link, 5}, ¬
+	{smithy_link, 5}, ¬
 	{culture_points_link, 5}, ¬
 	{farm_list, 5}, ¬
 	{trigger_all_farm_list, 15}, ¬
-	{building_view, 250} ¬
+	{building_view, 250} ¬ -- END***************************
 }
 
 -- Global settings
