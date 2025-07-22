@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel officiis voluptas
+nisi ea repudiandae, similique mollitia ab dolorum, nam quos est, minima nostrum
+laboriosam nulla debitis. Maxime suscipit officia quisquam.
+<button id="btn1">click me1</button>
+<button id="btn2">click me2</button>
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores magnam ea,
+vero deserunt reprehenderit quisquam dolore necessitatibus repellendus vel fuga
+eius expedita eum laborum quae? Voluptatibus impedit magni ipsum voluptates?
+<button id="btn3">click me3</button>
+<script>
+  // Example detection code a site might use:
+  var buttons = document.querySelectorAll('button');
+  buttons.forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      if (!e.isTrusted) {
+        // Flag as potential automation
+        console.log(e.target.innerText, 'Suspicious click detected');
+      } else {
+        console.log(e.target.innerText, 'Normal click detected');
+      }
+    });
+  });
+</script>
