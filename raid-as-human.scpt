@@ -3,11 +3,7 @@
 
 -- Configuration - Edit these values as needed
 -- Simple list of CSS selectors
-property selectorList : {¬
-	"#btn1", ¬
-	"#btn2", ¬
-	¬
-		"#btn3"}
+property selectorList : {"#btn1", "#btn2"}
 
 -- Global settings
 property repeatCycles : 3 -- How many times to repeat the entire sequence
@@ -15,7 +11,8 @@ property minWait : 0 -- Minimum wait time (seconds) - back to 0
 property maxWait : 5 -- Maximum wait time (seconds)
 property showLogs : true -- Set to false to disable logging
 property logToFile : true -- Set to true for file logging, false for notifications
-property logFilePath : (path to desktop as string) & "chrome_clicker_log.txt"
+property showConsoleOutput : true -- Set to true for real-time console output
+property logFilePath : (path to me as string) & "chrome_clicker_log.txt"
 
 -- Function to get element position from Chrome
 on getElementPosition(selector)
@@ -83,6 +80,11 @@ on logMessage(message)
 		set timestamp to (current date) as string
 		set logEntry to timestamp & " - " & message
 		
+		-- Real-time console output
+		if showConsoleOutput then
+			log message
+		end if
+		
 		if logToFile then
 			try
 				-- Append to log file
@@ -105,7 +107,7 @@ on logMessage(message)
 			display notification message with title "Debug"
 		end if
 		
-		-- Always log to Script Editor console
+		-- Always log full entry to Script Editor console
 		log logEntry
 	end if
 end logMessage
@@ -117,6 +119,11 @@ on performRealClick(screenX, screenY)
 		click at mouse_position
 	end tell
 end performRealClick
+
+-- Function to perform real click with verification
+on performRealClickWithVerification(screenX, screenY, webX, webY)
+	performRealClick(screenX, screenY)
+end performRealClickWithVerification
 
 -- Function to get Chrome content area position
 
