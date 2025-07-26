@@ -423,6 +423,61 @@ on clickElement(elementSelector)
 				performRealClickWithVerification(screenX, screenY, webX, webY)
 				logMessage("✓ Click performed on " & elementSelector)
 				
+				-- Special handling for reports - check custom element before marking all read
+				if elementSelector is reports then
+					delay 2 -- Wait for reports page to load
+					
+					-- Check if custom element exists and is visible
+					set customElementPos to getElementPosition(reports_check_element)
+					if customElementPos is not "null" and customElementPos is not missing value then
+						-- Parse custom element coordinates to check visibility
+						set AppleScript's text item delimiters to ","
+						set customCoordParts to text items of customElementPos
+						set customIsVisible to item 3 of customCoordParts as string
+						set AppleScript's text item delimiters to ""
+						
+						if customIsVisible is "true" then
+							logMessage("Reports check element is visible - proceeding with mark all read")
+							
+							-- Get mark all read position and click directly
+							set markAllReadPos to getElementPosition(mark_all_read)
+							if markAllReadPos is not "null" and markAllReadPos is not missing value then
+								set AppleScript's text item delimiters to ","
+								set markCoordParts to text items of markAllReadPos
+								set markWebX to item 1 of markCoordParts as integer
+								set markWebY to item 2 of markCoordParts as integer
+								set AppleScript's text item delimiters to ""
+								
+								-- Click mark all read
+								set markScreenX to contentLeft + markWebX + (random number from -3 to 3)
+								set markScreenY to contentTop + markWebY - 5 + (random number from -3 to 3)
+								performRealClickWithVerification(markScreenX, markScreenY, markWebX, markWebY)
+								logMessage("✓ Mark all read clicked!")
+								delay 1
+								
+								-- Get confirm button position and click directly
+								set confirmPos to getElementPosition(confirm_button)
+								if confirmPos is not "null" and confirmPos is not missing value then
+									set AppleScript's text item delimiters to ","
+									set confirmCoordParts to text items of confirmPos
+									set confirmWebX to item 1 of confirmCoordParts as integer
+									set confirmWebY to item 2 of confirmCoordParts as integer
+									set AppleScript's text item delimiters to ""
+									
+									set confirmScreenX to contentLeft + confirmWebX + (random number from -3 to 3)
+									set confirmScreenY to contentTop + confirmWebY - 5 + (random number from -3 to 3)
+									performRealClickWithVerification(confirmScreenX, confirmScreenY, confirmWebX, confirmWebY)
+									logMessage("✓ Confirm clicked!")
+								end if
+							end if
+						else
+							logMessage("Reports check element found but not visible - skipping mark all read")
+						end if
+					else
+						logMessage("Reports check element not found - skipping mark all read")
+					end if
+				end if
+				
 				-- Small delay after click
 				delay 0.5 + (random number from 0 to 1)
 				return true
