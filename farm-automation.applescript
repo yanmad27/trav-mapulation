@@ -308,71 +308,28 @@ on refreshChrome()
 	end tell
 end refreshChrome
 
--- Function to get element position from Chrome with retry and error handling
+-- Function to get element position from Chrome
 on getElementPosition(selector)
-	set maxRetries to 3
-	set retryCount to 0
-	
-	repeat while retryCount < maxRetries
-		try
-			tell application "Google Chrome"
-				tell active tab of front window
-					-- JavaScript to get element center coordinates relative to viewport
-					set jsCode to "
-						(function() {
-							try {
-								var element = document.querySelector('" & selector & "');
-								if (!element) return 'null';
-								var rect = element.getBoundingClientRect();
-								var x = Math.round(rect.left + rect.width / 2);
-								var y = Math.round(rect.top + rect.height / 2);
-								var visible = rect.width > 0 && rect.height > 0;
+	tell application "Google Chrome"
+		tell active tab of front window
+			-- JavaScript to get element center coordinates relative to viewport
+			set jsCode to "
+				(function() {
+					var element = document.querySelector('" & selector & "');
+					if (!element) return 'null';
+					var rect = element.getBoundingClientRect();
+					var x = Math.round(rect.left + rect.width / 2);
+					var y = Math.round(rect.top + rect.height / 2);
+					var visible = rect.width > 0 && rect.height > 0;
 
-								return x + ',' + y + ',' + visible;
-							} catch(e) {
-								return 'error:' + e.message;
-							}
-						})();
-					"
-					
-					set result to execute javascript jsCode
-					
-					-- Check if result indicates an error
-					if result starts with "error:" then
-						error "JavaScript error: " & result
-					end if
-					
-					return result
-				end tell
-			end tell
+					return x + ',' + y + ',' + visible;
+				})();
+			"
 			
-		on error errorMessage
-			set retryCount to retryCount + 1
-			logMessage("⚠ Attempt " & retryCount & " failed for " & selector & ": " & errorMessage)
-			
-			if retryCount < maxRetries then
-				-- Try refreshing Chrome if unresponsive
-				if retryCount = 2 then
-					logMessage("Chrome seems unresponsive, refreshing page twice...")
-					try
-						refreshChrome()
-						delay 2
-						refreshChrome()
-						delay 3
-					on error refreshError
-						logMessage("⚠ Failed to refresh Chrome: " & refreshError)
-					end try
-				else
-					delay 1
-				end if
-			else
-				logMessage("⚠ Max retries reached for " & selector & ": " & errorMessage)
-				return "null"
-			end if
-		end try
-	end repeat
-	
-	return "null"
+			set result to execute javascript jsCode
+			return result
+		end tell
+	end tell
 end getElementPosition
 
 -- Function to perform real click with verification
