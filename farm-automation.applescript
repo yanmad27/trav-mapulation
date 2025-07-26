@@ -478,6 +478,32 @@ on clickElement(elementSelector)
 					end if
 				end if
 				
+				-- Random post-click movement (humans often move mouse after clicking)
+				if (random number from 1 to 100) < 70 then -- 70% chance of post-click movement
+					set moveType to random number from 1 to 3
+					if moveType is 1 then
+						-- Small random movement near the click area
+						set randomMoveX to screenX + (random number from -30 to 30)
+						set randomMoveY to screenY + (random number from -30 to 30)
+					else if moveType is 2 then
+						-- Move to a random area of the screen
+						set randomMoveX to random number from 200 to 1200
+						set randomMoveY to random number from 200 to 800
+					else
+						-- Move slightly away and back (hesitation behavior)
+						set awayX to screenX + (random number from -50 to 50)
+						set awayY to screenY + (random number from -50 to 50)
+						smoothMoveTo({awayX, awayY})
+						delay 0.1 + (random number from 0 to 0.3)
+						set randomMoveX to screenX + (random number from -15 to 15)
+						set randomMoveY to screenY + (random number from -15 to 15)
+					end if
+					
+					-- Perform the random movement
+					smoothMoveTo({randomMoveX, randomMoveY})
+					logMessage("Random post-click movement to: " & randomMoveX & "," & randomMoveY)
+				end if
+				
 				-- Small delay after click
 				delay 0.5 + (random number from 0 to 1)
 				return true
