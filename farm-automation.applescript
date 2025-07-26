@@ -24,18 +24,30 @@ property culture_points_link : "[href=\"/village/statistics/culturepoints\"]"
 property farm_list : "[data-dragid=\"villageListQuickLinks0\"]"
 property trigger_all_farm_list : "[class~=\"startAllFarmLists\"]"
 
+property n1 : "[data-did=\"42170\"]"
+property cap : "[data-did=\"43231\"]"
+property w1 : "[data-did=\"44812\"]"
+property w2 : "[data-did=\"45786\"]"
+property o1 : "[data-did=\"29561\"]"
+property f1 : "[data-did=\"31324\"]"
+property f2 : "[data-did=\"33344\"]"
+property f3 : "[data-did=\"34922\"]"
+property f4 : "[data-did=\"36334\"]"
+property s1 : "[data-did=\"28791\"]"
+property s2 : "[data-did=\"38304\"]"
+
 -- List of random selectors to click between farm list triggers for human-like behavior
-property random_selectors : {statistics, reports, messages, warehouse_link, overview_link, troops_link, hospital_link, smithy_link, training_link, resources_link, culture_points_link, building_view}
+property random_selectors : {statistics, reports, messages, warehouse_link, overview_link, troops_link, hospital_link, smithy_link, training_link, resources_link, culture_points_link, building_view, n1, cap, w1, w2, o1, f1, f2, f3, f4, s1, s2}
 
 -- Function to get random farm interval (4-7 minutes for first range, 3-6 minutes for second range)
 on getRandomFarmInterval()
 	set intervalType to random number from 1 to 2
 	if intervalType is 1 then
 		-- 4-7 minutes (240-420 seconds)
-		return random number from 240 to 420
+		return random number from 180 to 250
 	else
 		-- 3-6 minutes (180-360 seconds)
-		return random number from 180 to 360
+		return random number from 120 to 200
 	end if
 end getRandomFarmInterval
 
@@ -49,9 +61,9 @@ end getRandomSelector
 property repeatCycles : 10000 -- How many times to repeat the entire sequence
 property minWait : 1 -- Minimum wait time (seconds) - back to 0
 property maxWait : 5 -- Maximum wait time (seconds)
-property showLogs : true -- Set to false to disable logging
-property logToFile : true -- Set to true for file logging, false for notifications
-property showConsoleOutput : true -- Set to true for real-time console output
+property showLogs : false -- Set to false to disable logging
+property logToFile : false -- Set to true for file logging, false for notifications
+property showConsoleOutput : false -- Set to true for real-time console output
 property logFilePath : (path to me as string) & "farm_automation_log.txt"
 
 -- START MOUSE
@@ -287,28 +299,80 @@ on mouseMoveTo(global_coordinates)
 end mouseMoveTo
 
 -- END MOUSE
--- Function to get element position from Chrome
-on getElementPosition(selector)
+-- Function to refresh Chrome page
+on refreshChrome()
 	tell application "Google Chrome"
 		tell active tab of front window
-			-- JavaScript to get element center coordinates relative to viewport
-			set jsCode to "
-				(function() {
-					var element = document.querySelector('" & selector & "');
-					if (!element) return 'null';
-					var rect = element.getBoundingClientRect();
-					var x = Math.round(rect.left + rect.width / 2);
-					var y = Math.round(rect.top + rect.height / 2);
-					var visible = rect.width > 0 && rect.height > 0;
-
-					return x + ',' + y + ',' + visible;
-				})();
-			"
-			
-			set result to execute javascript jsCode
-			return result
+			reload
 		end tell
 	end tell
+end refreshChrome
+
+-- Function to get element position from Chrome with retry and error handling
+on getElementPosition(selector)
+	set maxRetries to 3
+	set retryCount to 0
+	
+	repeat while retryCount < maxRetries
+		try
+			tell application "Google Chrome"
+				tell active tab of front window
+					-- JavaScript to get element center coordinates relative to viewport
+					set jsCode to "
+						(function() {
+							try {
+								var element = document.querySelector('" & selector & "');
+								if (!element) return 'null';
+								var rect = element.getBoundingClientRect();
+								var x = Math.round(rect.left + rect.width / 2);
+								var y = Math.round(rect.top + rect.height / 2);
+								var visible = rect.width > 0 && rect.height > 0;
+
+								return x + ',' + y + ',' + visible;
+							} catch(e) {
+								return 'error:' + e.message;
+							}
+						})();
+					"
+					
+					set result to execute javascript jsCode
+					
+					-- Check if result indicates an error
+					if result starts with "error:" then
+						error "JavaScript error: " & result
+					end if
+					
+					return result
+				end tell
+			end tell
+			
+		on error errorMessage
+			set retryCount to retryCount + 1
+			logMessage("⚠ Attempt " & retryCount & " failed for " & selector & ": " & errorMessage)
+			
+			if retryCount < maxRetries then
+				-- Try refreshing Chrome if unresponsive
+				if retryCount = 2 then
+					logMessage("Chrome seems unresponsive, refreshing page twice...")
+					try
+						refreshChrome()
+						delay 2
+						refreshChrome()
+						delay 3
+					on error refreshError
+						logMessage("⚠ Failed to refresh Chrome: " & refreshError)
+					end try
+				else
+					delay 1
+				end if
+			else
+				logMessage("⚠ Max retries reached for " & selector & ": " & errorMessage)
+				return "null"
+			end if
+		end try
+	end repeat
+	
+	return "null"
 end getElementPosition
 
 -- Function to perform real click with verification
