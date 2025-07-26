@@ -14,7 +14,8 @@
       "mcp__browser-tool-mcp__getNetworkErrors",
       "mcp__browser-tool-mcp__wipeLogs",
       "Bash(osacompile:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(npx playwright:*)"
     ],
     "deny": []
   }
