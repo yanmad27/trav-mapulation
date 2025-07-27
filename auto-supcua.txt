@@ -4,72 +4,72 @@ StopHotKey=S
 Loop=UntilPressStop
 [Script]
 // Click Report
-Move to (952,118).
+Move to (947,123).
 Left click.
 Wait 12000 miliseconds.
 
 // Click Mark all as read
-Move to (723,443).
+Move to (724,437). 
 Left click.
 Wait 5000 miliseconds.
 
 // Click Confirm
-Move to (1007,575).
+Move to (1013,574). 
 Left click.
 Wait 3000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1427,383)
 Left click.
 Wait 12000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1105,1004).
 Left click.
 Wait 251000 miliseconds.
 
 // Click Overview
-Move to (298,462).
+Move to (303,468).
 Left click.
 Wait 14000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1420,390)
 Left click.
 Wait 10000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1101,1001).
 Left click.
 Wait 265000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1424,386)
 Left click.
 Wait 11000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1097,999).
 Left click.
 Wait 262000 miliseconds.
 
 // Click Crop-end
-Move to (391,499).
+Move to (384,503).
 Left click.
 Wait 13000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1423,387)
 Left click.
 Wait 12000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1104,1003).
 Left click.
 Wait 278000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1426,384)
 Left click.
 Wait 10000 miliseconds.
 
@@ -79,166 +79,166 @@ Left click.
 Wait 295000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1428,389)
 Left click.
 Wait 11000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1098,1005).
 Left click.
 Wait 270000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1421,385)
 Left click.
 Wait 12000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1106,996).
 Left click.
 Wait 269000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1429,391)
 Left click.
 Wait 10000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1100,1002).
 Left click.
 Wait 274000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1419,387)
 Left click.
 Wait 15000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1095,1000).
 Left click.
 Wait 251000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1425,383)
 Left click.
 Wait 14000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1103,998).
 Left click.
 Wait 281000 miliseconds.
 
 // Click map
-Move to (842,137).
+Move to (835,131).
 Left click.
 Wait 12000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1427,390)
 Left click.
 Wait 13000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1107,1001).
 Left click.
 Wait 264000 miliseconds.
 
 // Click building
-Move to (753,132).
+Move to (759,126).
 Left click.
 Wait 16000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1422,384)
 Left click.
 Wait 12000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1096,1004).
 Left click.
 Wait 279000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1424,389)
 Left click.
 Wait 11000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1101,999).
 Left click.
 Wait 281000 miliseconds.
 
 // Click Statistic
-Move to (890,128).
+Move to (891,134).
 Left click.
 Wait 10000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1426,386)
 Left click.
 Wait 12500 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1104,997).
 Left click.
 Wait 260000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1428,388)
 Left click.
 Wait 13000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1098,1003).
 Left click.
 Wait 282000 miliseconds.
 
 // Click resource
-Move to (687,138).
+Move to (680,138).
 Left click.
 Wait 16000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1423,391)
 Left click.
 Wait 12000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1102,1000).
 Left click.
 Wait 278000 miliseconds.
 
 // Click farm list
-Move to (1428,387)a
+Move to (1425,387)
 Left click.
 Wait 11000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1099,1005).
 Left click.
 Wait 265000 miliseconds.
 
 // Click troop Training
-Move to (415,565).
+Move to (421,559).
 Left click.
 Wait 14000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1421,389)
 Left click.
 Wait 11000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1105,998).
 Left click.
 Wait 299000 miliseconds.
 
 // Click farm list
-Move to (1428,387)
+Move to (1427,385)
 Left click.
 Wait 10000 miliseconds.
 
 // Click Start all farm list
-Move to (1102,997).
+Move to (1097,1002).
 Left click.
 Wait 259000 miliseconds.
