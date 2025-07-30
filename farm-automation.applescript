@@ -9,7 +9,7 @@ property showConsoleOutput : false -- Set to true for real-time console output
 property logFilePath : (path to me as string) & "farm_automation_log.txt"
 
 -- Configuration - Browser selection 
--- Change to "Opera" to use Opera browser instead of Chrome
+-- Change to "Google Chrome" to use Opera browser instead of Chrome
 -- Configuration - Last farm interval for adaptive timing
 property lastFarmInterval : 0
 
@@ -315,7 +315,7 @@ end mouseMoveTo
 -- END MOUSE
 -- Function to refresh Chrome page
 on refreshChrome()
-	tell application "Opera"
+	tell application "Google Chrome"
 		tell active tab of front window
 			reload
 		end tell
@@ -324,7 +324,7 @@ end refreshChrome
 
 -- Function to get element position from Chrome
 on getElementPosition(selector)
-	tell application "Opera"
+	tell application "Google Chrome"
 		tell active tab of front window
 			-- JavaScript to get element center coordinates relative to viewport
 			set jsCode to "
@@ -352,7 +352,7 @@ end performRealClickWithVerification
 
 -- Function to get Chrome window content area position
 on getChromeContentOffset()
-	tell application "Opera"
+	tell application "Google Chrome"
 		tell front window
 			set windowBounds to bounds
 			-- Chrome window bounds: {left, top, right, bottom}
@@ -553,7 +553,7 @@ on clickElement(elementSelector)
 end clickElement
 
 -- Make sure Chrome is active and frontmost
-tell application "Opera"
+tell application "Google Chrome"
 	activate
 	delay 0.5
 end tell
