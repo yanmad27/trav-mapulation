@@ -9,12 +9,12 @@ Left click.
 Wait 12000 miliseconds.
 
 // Click Mark all as read
-Move to (724,437). 
+Move to (724,437).
 Left click.
 Wait 5000 miliseconds.
 
 // Click Confirm
-Move to (1013,574). 
+Move to (1013,574).
 Left click.
 Wait 3000 miliseconds.
 
