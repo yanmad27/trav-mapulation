@@ -455,7 +455,7 @@ on clickElement(elementSelector)
 				
 				-- Perform the real click
 				performRealClickWithVerification(screenX, screenY, webX, webY)
-				logMessage("✓ Click performed on " & elementSelector)
+				logMessage("Click performed on " & elementSelector)
 				
 				-- Special handling for reports - check custom element before marking all read
 				if elementSelector is reports then
@@ -486,7 +486,7 @@ on clickElement(elementSelector)
 								set markScreenX to contentLeft + markWebX + (random number from -3 to 3)
 								set markScreenY to contentTop + markWebY - 5 + (random number from -3 to 3)
 								performRealClickWithVerification(markScreenX, markScreenY, markWebX, markWebY)
-								logMessage("✓ Mark all read clicked!")
+								logMessage("Mark all read clicked!")
 								delay 2
 								
 								-- Get confirm button position and click directly
@@ -501,7 +501,7 @@ on clickElement(elementSelector)
 									set confirmScreenX to contentLeft + confirmWebX + (random number from -3 to 3)
 									set confirmScreenY to contentTop + confirmWebY - 5 + (random number from -3 to 3)
 									performRealClickWithVerification(confirmScreenX, confirmScreenY, confirmWebX, confirmWebY)
-									logMessage("✓ Confirm clicked!")
+									logMessage("Confirm clicked!")
 								end if
 							end if
 						else
@@ -542,12 +542,12 @@ on clickElement(elementSelector)
 				delay 0.5 + (random number from 0 to 1)
 				return true
 			else
-				logMessage("⚠ Element exists but not visible: " & elementSelector)
+				logMessage("Element exists but not visible: " & elementSelector)
 				return false
 			end if
 		end if
 	on error errorMessage
-		logMessage("⚠ Error with " & elementSelector & ": " & errorMessage)
+		logMessage("Error with " & elementSelector & ": " & errorMessage)
 		return false
 	end try
 end clickElement
@@ -564,6 +564,9 @@ logMessage("=== Starting Farm List Automation ===")
 repeat with cycle from 1 to repeatCycles
 	logMessage("=== Starting cycle " & cycle & " of " & repeatCycles & " ===")
 	
+	refreshChrome()
+	delay 5 + (random number from 1 to 5)
+
 	-- Click farm list to navigate there
 	logMessage("Navigating to farm list...")
 	clickElement(farm_list)
@@ -572,11 +575,11 @@ repeat with cycle from 1 to repeatCycles
 	-- Trigger all farm lists
 	logMessage("Triggering all farm lists...")
 	if clickElement(trigger_all_farm_list) then
-		logMessage("✓ Farm lists triggered successfully!")
+		logMessage("Farm lists triggered successfully!")
 	else
-		logMessage("⚠ Failed to trigger farm lists")
+		logMessage("Failed to trigger farm lists")
 	end if
-	delay 5 + (random number from 1 to 5)
+	delay 1 + (random number from 0 to 2)
 	
 	-- Get random interval for next farm trigger (4-7 or 3-6 minutes)
 	set farmInterval to getRandomFarmInterval()
