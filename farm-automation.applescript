@@ -332,7 +332,7 @@ on getElementPosition(selector)
 					var element = document.querySelector('" & selector & "');
 					if (!element) return 'null';
 					var rect = element.getBoundingClientRect();
-					var x = Math.round(rect.left + rect.width / 10);
+					var x = Math.round(rect.left + rect.width / 2);
 					var y = Math.round(rect.top + rect.height / 2);
 					var visible = rect.width > 0 && rect.height > 0;
 
