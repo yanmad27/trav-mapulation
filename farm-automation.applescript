@@ -555,6 +555,32 @@ on clickElement(elementSelector)
 	end try
 end clickElement
 
+-- Function to retry farmlist navigation with multiple attempts
+on retryAction(selector, maxAttempts)
+	set attemptCount to 0
+	
+	repeat while attemptCount < maxAttempts
+		set attemptCount to attemptCount + 1
+		logMessage("Retry attempt " & attemptCount & " of " & maxAttempts)
+		
+		if clickElement(selector) then
+			logMessage("Successfully retry on attempt " & attemptCount)
+			return true
+		else
+			logMessage("Failed to retry on attempt " & attemptCount)
+			if attemptCount < maxAttempts then
+				logMessage("Waiting before retry...")
+				delay 3+ (random number from 1 to 3)
+				refreshChrome()
+				delay 3 + (random number from 1 to 3)
+			end if
+		end if
+	end repeat
+	
+	logMessage("ERROR: Failed to retry after " & maxAttempts & " attempts")
+	return false
+end retryAction
+
 -- Make sure Chrome is active and frontmost
 tell application "Google Chrome"
 	activate
@@ -570,9 +596,11 @@ repeat with cycle from 1 to repeatCycles
 	refreshChrome()
 	delay 5 + (random number from 1 to 5)
 
-	-- Click farm list to navigate there
-	logMessage("Navigating to farm list...")
-	clickElement(farm_list)
+	-- Click farm list to navigate there (with retry)
+	if not retryAction(farm_list,3) then
+		logMessage("CRITICAL ERROR: Unable to navigate to farmlist after multiple attempts. Skipping this cycle.")
+		next repeat
+	end if
 	delay 5 + (random number from 1 to 5)
 	
 	-- Trigger all farm lists
