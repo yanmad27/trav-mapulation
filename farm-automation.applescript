@@ -573,7 +573,7 @@ repeat with cycle from 1 to repeatCycles
 	-- Click farm list to navigate there
 	logMessage("Navigating to farm list...")
 	clickElement(farm_list)
-	delay 5 + (random number from 1 to 5)
+	delay 10 + (random number from 1 to 5)
 	
 	-- Trigger all farm lists
 	logMessage("Triggering all farm lists...")
