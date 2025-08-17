@@ -329,9 +329,10 @@ on getElementPosition(selector)
 			-- JavaScript to get element center coordinates relative to viewport
 			set jsCode to "
 				(function() {
+					var selector = '" & selector & "';
 					var xDiff = 2;
 					if (selector.includes('data-did')) xDiff = 10;
-					var element = document.querySelector('" & selector & "');
+					var element = document.querySelector(selector);
 					if (!element) return 'null';
 					var rect = element.getBoundingClientRect();
 					var x = Math.round(rect.left + rect.width / xDiff);
