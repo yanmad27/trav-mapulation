@@ -570,7 +570,7 @@ on retryAction(selector, maxAttempts)
 			logMessage("Failed to retry on attempt " & attemptCount)
 			if attemptCount < maxAttempts then
 				logMessage("Waiting before retry...")
-				delay 3 + (random number from 1 to 3)
+				delay 3+ (random number from 1 to 3)
 				refreshChrome()
 				delay 3 + (random number from 1 to 3)
 			end if
