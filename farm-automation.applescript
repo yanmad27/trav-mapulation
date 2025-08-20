@@ -34,6 +34,11 @@ property resources_link : "[href=\"/village/statistics/resources/resources\"]"
 property culture_points_link : "[href=\"/village/statistics/culturepoints\"]"
 property alliance_link : "[href=\"/alliance\"]"
 
+property quickLink1 : "[data-dragid=\"villageListQuickLinks1\"]"
+property quickLink2 : "[data-dragid=\"villageListQuickLinks2\"]"
+property quickLink3 : "[data-dragid=\"villageListQuickLinks3\"]"
+property quickLink4 : "[data-dragid=\"villageListQuickLinks4\"]"
+
 property farm_list : "[data-dragid=\"villageListQuickLinks0\"]"
 property trigger_all_farm_list : "[class~=\"startAllFarmLists\"]"
 
@@ -50,13 +55,13 @@ property s1 : "[data-did=\"28791\"]"
 property s2 : "[data-did=\"38304\"]"
 
 -- List of random selectors to click between farm list triggers for human-like behavior
-property random_selectors : {statistics, reports, messages, warehouse_link, overview_link, troops_link, hospital_link, smithy_link, training_link, resources_link, culture_points_link, building_view, alliance_link, cap, w1, w2, s1, s2}
+property random_selectors : {statistics, reports, messages, warehouse_link, overview_link, troops_link, hospital_link, smithy_link, training_link, resources_link, culture_points_link, building_view, alliance_link, quickLink1, quickLink2, quickLink3, quickLink4, cap, w1, w2}
 -- Property to track the last farm interval for adaptive timing
 
 -- Function to get random farm interval with adaptive timing based on last result
 on getRandomFarmInterval()
 	set baseMin to 150
-	set baseMax to 300
+	set baseMax to 280
 	set baseMiddle to (baseMin + baseMax) / 2
 	set range to 20
 
