@@ -586,6 +586,16 @@ repeat with cycle from 1 to repeatCycles
 		logMessage("Farm lists triggered successfully!")
 	else
 		logMessage("Failed to trigger farm lists")
+		refreshChrome()
+		delay 5 + (random number from 1 to 5)
+		if clickElement(trigger_all_farm_list) then
+			logMessage("Farm lists triggered successfully!")
+		else 
+			logMessage("Failed to trigger farm lists")
+			refreshChrome()
+			delay 5 + (random number from 1 to 5)
+			clickElement(trigger_all_farm_list)
+		end if
 	end if
 	delay 1 + (random number from 0 to 2)
 	
