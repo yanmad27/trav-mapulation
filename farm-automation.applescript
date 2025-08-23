@@ -334,7 +334,8 @@ end refreshChrome
 
 -- Function to get current timestamp
 on getCurrentTimestamp()
-	return (current date) - (date "Thursday, January 1, 1970 at 12:00:00 AM")
+	set epoch to date "Thursday, January 1, 1970 at 12:00:00 AM"
+	return (current date) - epoch
 end getCurrentTimestamp
 
 -- Function to clean expired cache entries
