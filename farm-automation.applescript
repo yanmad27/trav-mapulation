@@ -8,10 +8,6 @@ property logToFile : false -- Set to true for file logging, false for notificati
 property showConsoleOutput : false -- Set to true for real-time console output
 property logFilePath : (path to me as string) & "farm_automation_log.txt"
 
--- Position caching settings
-property positionCache : {} -- Cache for element positions
-property cacheHitCount : 0 -- Track cache usage for 50/50 ratio
-
 -- Configuration - Browser selection 
 -- Change to "Google Chrome" to use Opera browser instead of Chrome
 -- Configuration - Last farm interval for adaptive timing
@@ -331,46 +327,8 @@ on refreshChrome()
 	end tell
 end refreshChrome
 
--- Function to clear position cache
-on clearPositionCache()
-	set positionCache to {}
-	set cacheHitCount to 0
-	logMessage("Position cache cleared")
-end clearPositionCache
-
--- Function to get cached position (returns most recent match)
-on getCachedPosition(selector)
-	-- Search backwards to get most recent entry
-	repeat with i from (count of positionCache) down to 1
-		set cacheEntry to item i of positionCache
-		if (item 1 of cacheEntry) is equal to selector then
-			return item 2 of cacheEntry
-		end if
-	end repeat
-	return missing value
-end getCachedPosition
-
--- Function to cache position
-on cachePosition(selector, position)
-	-- Simple approach: just add to cache (allow duplicates for now)
-	set end of positionCache to {selector, position}
-end cachePosition
-
--- Function to get element position from Chrome with caching (30% JS, 70% cache)
+-- Function to get element position from Chrome
 on getElementPosition(selector)
-	-- Decide whether to use cache or run JavaScript (30% JS, 70% cache)
-	set useCache to (cacheHitCount mod 10) >= 3
-	set cacheHitCount to cacheHitCount + 1
-	
-	if useCache then
-		set cachedResult to getCachedPosition(selector)
-		if cachedResult is not missing value then
-			logMessage("Using cached position for " & selector)
-			return cachedResult
-		end if
-	end if
-	
-	-- Run JavaScript to get fresh position
 	tell application "Google Chrome"
 		tell active tab of front window
 			-- JavaScript to get element center coordinates relative to viewport
@@ -390,13 +348,6 @@ on getElementPosition(selector)
 				})();
 			"
 			set result to execute javascript jsCode
-			
-			-- Cache the result if it's valid
-			if result is not "null" and result is not missing value then
-				cachePosition(selector, result)
-				logMessage("Cached position for " & selector)
-			end if
-			
 			return result
 		end tell
 	end tell
