@@ -8,6 +8,11 @@ property logToFile : false -- Set to true for file logging, false for notificati
 property showConsoleOutput : false -- Set to true for real-time console output
 property logFilePath : (path to me as string) & "farm_automation_log.txt"
 
+-- Position cache settings
+property positionCache : {}
+property cacheTimeout : 1800 -- Cache timeout in seconds (30 minutes)
+property useJSRatio : 30 -- 30% chance to call JS, 70% to use cache
+
 -- Configuration - Browser selection 
 -- Change to "Google Chrome" to use Opera browser instead of Chrome
 -- Configuration - Last farm interval for adaptive timing
@@ -327,8 +332,68 @@ on refreshChrome()
 	end tell
 end refreshChrome
 
--- Function to get element position from Chrome
+-- Function to get current timestamp
+on getCurrentTimestamp()
+	return (current date) - (date "Thursday, January 1, 1970 at 12:00:00 AM")
+end getCurrentTimestamp
+
+-- Function to clean expired cache entries
+on cleanExpiredCache()
+	set currentTime to getCurrentTimestamp()
+	set newCache to {}
+	repeat with cacheItem in positionCache
+		set cacheTime to item 3 of cacheItem
+		if (currentTime - cacheTime) < cacheTimeout then
+			set end of newCache to cacheItem
+		end if
+	end repeat
+	set positionCache to newCache
+end cleanExpiredCache
+
+-- Function to find cached position
+on getCachedPosition(selector)
+	cleanExpiredCache()
+	repeat with cacheItem in positionCache
+		if item 1 of cacheItem is selector then
+			return item 2 of cacheItem
+		end if
+	end repeat
+	return null
+end getCachedPosition
+
+-- Function to cache position
+on cachePosition(selector, position)
+	set currentTime to getCurrentTimestamp()
+	set newCacheItem to {selector, position, currentTime}
+	
+	-- Remove existing cache entry for this selector
+	set newCache to {}
+	repeat with cacheItem in positionCache
+		if item 1 of cacheItem is not selector then
+			set end of newCache to cacheItem
+		end if
+	end repeat
+	
+	-- Add new cache entry
+	set end of newCache to newCacheItem
+	set positionCache to newCache
+end cachePosition
+
+-- Function to get element position from Chrome with caching
 on getElementPosition(selector)
+	-- Check if we should use cache (70% chance) or call JS (30% chance)
+	set shouldUseJS to (random number from 1 to 100) <= useJSRatio
+	
+	-- Try to get cached position first (if not forcing JS call)
+	if not shouldUseJS then
+		set cachedPos to getCachedPosition(selector)
+		if cachedPos is not null then
+			logMessage("Using cached position for " & selector & ": " & cachedPos)
+			return cachedPos
+		end if
+	end if
+	
+	-- Call JavaScript to get fresh position
 	tell application "Google Chrome"
 		tell active tab of front window
 			-- JavaScript to get element center coordinates relative to viewport
@@ -348,6 +413,15 @@ on getElementPosition(selector)
 				})();
 			"
 			set result to execute javascript jsCode
+			
+			-- Cache the result if it's not null
+			if result is not "null" then
+				cachePosition(selector, result)
+				logMessage("JS call for " & selector & " - cached result: " & result)
+			else
+				logMessage("JS call for " & selector & " - element not found")
+			end if
+			
 			return result
 		end tell
 	end tell
