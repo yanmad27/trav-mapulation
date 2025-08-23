@@ -340,8 +340,9 @@ end clearPositionCache
 
 -- Function to get cached position
 on getCachedPosition(selector)
-	repeat with cacheEntry in positionCache
-		if (item 1 of cacheEntry as string) is selector then
+	repeat with i from 1 to count of positionCache
+		set cacheEntry to item i of positionCache
+		if (item 1 of cacheEntry) is equal to selector then
 			return item 2 of cacheEntry
 		end if
 	end repeat
@@ -352,8 +353,9 @@ end getCachedPosition
 on cachePosition(selector, position)
 	-- Remove existing entry for this selector
 	set newCache to {}
-	repeat with cacheEntry in positionCache
-		if (item 1 of cacheEntry as string) is not selector then
+	repeat with i from 1 to count of positionCache
+		set cacheEntry to item i of positionCache
+		if (item 1 of cacheEntry) is not equal to selector then
 			set end of newCache to cacheEntry
 		end if
 	end repeat
