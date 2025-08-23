@@ -342,31 +342,51 @@ on getCachedPosition(selector)
 	return null
 end getCachedPosition
 
+on initializeCache()
+	set positionCache to {}
+end initializeCache
+
 -- Function to cache position
 on cachePosition(selector, position)
 	try
-		set newCacheItem to {selector, position}
-		-- Remove existing cache entry for this selector
-		set newCache to {}
-		-- Check if positionCache has any items before iterating
-		if (count of positionCache) > 0 then
-			repeat with i from 1 to (count of positionCache)
-				set cacheItem to item i of positionCache
-				-- Verify cacheItem is properly structured (has at least 1 item)
-				if (count of cacheItem) > 0 then
-					if item 1 of cacheItem is not selector then
-						set end of newCache to cacheItem
-					end if
-				end if
-			end repeat
+		-- Ensure positionCache is a list
+		if positionCache is missing value or positionCache is "" then
+			set positionCache to {}
 		end if
-		-- Add new cache entry
-		set end of newCache to newCacheItem
-		set positionCache to newCache
-	on error errorMessage
-		logMessage("Error in cachePosition for " & selector & ": " & errorMessage)
-		-- Fallback: just add the new item without removing duplicates
-		set positionCache to positionCache & {{selector, position}}
+		
+		-- Create completely new cache list
+		set tempCache to {}
+		
+		-- Only process existing items if cache actually has content
+		try
+			if (count of positionCache) > 0 then
+				repeat with i from 1 to (count of positionCache)
+					try
+						set currentItem to item i of positionCache
+						-- Verify this is a proper 2-item list
+						if (count of currentItem) = 2 then
+							if (item 1 of currentItem as string) ­ (selector as string) then
+								set end of tempCache to currentItem
+							end if
+						end if
+					on error itemError
+						logMessage("Skipping corrupted cache item: " & itemError)
+					end try
+				end repeat
+			end if
+		on error cacheError
+			logMessage("Error processing cache, starting fresh: " & cacheError)
+			set tempCache to {}
+		end try
+		
+		-- Add the new item
+		set end of tempCache to {selector, position}
+		set positionCache to tempCache
+		
+	on error mainError
+		logMessage("Major error in cachePosition: " & mainError)
+		-- Nuclear option: reset cache and add only the new item
+		set positionCache to {{selector, position}}
 	end try
 end cachePosition
 
@@ -632,7 +652,7 @@ tell application "Google Chrome"
 end tell
 
 logMessage("=== Starting Farm List Automation ===")
-
+initializeCache()
 -- Main automation loop
 repeat with cycle from 1 to repeatCycles
 	logMessage("=== Starting cycle " & cycle & " of " & repeatCycles & " ===")
