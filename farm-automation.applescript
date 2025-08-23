@@ -351,18 +351,24 @@ end getCachedPosition
 
 -- Function to cache position
 on cachePosition(selector, position)
-	-- Remove existing entry for this selector
-	set newCache to {}
-	repeat with i from 1 to count of positionCache
-		set cacheEntry to item i of positionCache
-		if (item 1 of cacheEntry) is not equal to selector then
-			set end of newCache to cacheEntry
-		end if
-	end repeat
-	
-	-- Add new entry
-	set end of newCache to {selector, position}
-	set positionCache to newCache
+	try
+		-- Remove existing entry for this selector
+		set newCache to {}
+		repeat with i from 1 to count of positionCache
+			set cacheEntry to item i of positionCache
+			if (item 1 of cacheEntry) is not equal to selector then
+				set end of newCache to cacheEntry
+			end if
+		end repeat
+		
+		-- Add new entry
+		set end of newCache to {selector, position}
+		set positionCache to newCache
+	on error errMsg
+		logMessage("Error in cachePosition: " & errMsg)
+		-- Simple fallback - just add to cache without removing duplicates
+		set end of positionCache to {selector, position}
+	end try
 end cachePosition
 
 -- Function to get element position from Chrome with caching (30% JS, 70% cache)
