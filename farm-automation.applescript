@@ -10,7 +10,6 @@ property logFilePath : (path to me as string) & "farm_automation_log.txt"
 
 -- Position cache settings
 property positionCache : {}
-property cacheTimeout : 1800 -- Cache timeout in seconds (30 minutes)
 property useJSRatio : 30 -- 30% chance to call JS, 70% to use cache
 
 -- Configuration - Browser selection 
@@ -332,28 +331,9 @@ on refreshChrome()
 	end tell
 end refreshChrome
 
--- Function to get current timestamp
-on getCurrentTimestamp()
-	set epoch to date "Thursday, January 1, 1970 at 12:00:00 AM"
-	return (current date) - epoch
-end getCurrentTimestamp
-
--- Function to clean expired cache entries
-on cleanExpiredCache()
-	set currentTime to getCurrentTimestamp()
-	set newCache to {}
-	repeat with cacheItem in positionCache
-		set cacheTime to item 3 of cacheItem
-		if (currentTime - cacheTime) < cacheTimeout then
-			set end of newCache to cacheItem
-		end if
-	end repeat
-	set positionCache to newCache
-end cleanExpiredCache
 
 -- Function to find cached position
 on getCachedPosition(selector)
-	cleanExpiredCache()
 	repeat with cacheItem in positionCache
 		if item 1 of cacheItem is selector then
 			return item 2 of cacheItem
@@ -364,8 +344,7 @@ end getCachedPosition
 
 -- Function to cache position
 on cachePosition(selector, position)
-	set currentTime to getCurrentTimestamp()
-	set newCacheItem to {selector, position, currentTime}
+	set newCacheItem to {selector, position}
 	
 	-- Remove existing cache entry for this selector
 	set newCache to {}
